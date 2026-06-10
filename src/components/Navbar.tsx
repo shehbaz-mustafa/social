@@ -2,12 +2,7 @@ import Link from "next/link";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import { currentUser } from "@clerk/nextjs/server";
-
-// Fallback no-op syncUser in case the actions module is unavailable in this environment.
-// This avoids a build-time import error while keeping the call-site intact.
-const syncUser = async () => {
-  return;
-};
+import { syncUser } from "../actions/user.action";
 
 async function Navbar() {
   const user = await currentUser();

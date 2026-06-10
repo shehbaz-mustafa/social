@@ -1,8 +1,14 @@
-import { PrismaClient } from "@prisma/client/extension";
+import { PrismaClient } from "@/generated/prisma/client"
+import { PrismaPg } from "@prisma/adapter-pg"
 
-const prismaClientSingleton = () => {
-  return new PrismaClient();
-};
+function prismaClientSingleton() {
+  const url = process.env.DATABASE_URL;
+  console.log("DATABASE_URL at runtime:", url);
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL!,
+  });
+  return new PrismaClient({ adapter });
+}
 
 declare const globalThis: {
   prismaGlobal: ReturnType<typeof prismaClientSingleton>;
